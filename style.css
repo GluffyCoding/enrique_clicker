@@ -1,0 +1,97 @@
+body {
+    font-family: sans-serif;
+    text-align: center;
+    background-color: #f4f4f9;
+    margin-top: 50px;
+}
+.button-container {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;         
+    align-items: flex-end; 
+}
+button {  
+    text-align: center;
+    height: 50px;
+    width: 125px;
+    border-radius: 5px; 
+    font-size: 16px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    border: none;
+
+}
+button2 {  
+    /* 1. This keeps it locked to the screen */
+    position: fixed; 
+  
+    /* 2. Position it in the bottom left corner */
+    bottom: 20px;    /* Distance from the bottom edge */
+    left: 20px;      /* Distance from the left edge */
+    
+    /* 3. Make sure it stays on top of other content */
+    z-index: 9999;   
+    
+    /* Optional: Make it look nice */
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button3 {  
+    /* 1. This keeps it locked to the screen */
+    position: fixed; 
+  
+    /* 2. Position it in the bottom left corner */
+    bottom: 20px;    /* Distance from the bottom edge */
+    left: 200px;      /* Distance from the left edge */
+    
+    /* 3. Make sure it stays on top of other content */
+    z-index: 9999;   
+    
+    /* Optional: Make it look nice */
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+ /* 1. The button wrapper */
+/* Update this block in your style.css */
+.clickable-image {
+    /* 1. Alignment fixes to keep it perfectly centered */
+    display: block;
+    margin: 30px auto; 
+    
+    /* 2. Sizing and shape */
+    width: 200px; 
+    height: 200px;
+    object-fit: cover; 
+    border-radius: 50%; 
+    
+    /* 3. Style and cursor feedback */
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); 
+    
+    /* 4. Smooth animation transitions */
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+/* Hover Effect */
+.clickable-image:hover {
+    transform: scale(1.05); 
+    filter: brightness(1.1); 
+}
+
+/* Click Effect */
+.clickable-image.active {
+    transform: scale(0.95); 
+}
+.clickable-image:active {
+    transform: scale(0.95); 
+}
