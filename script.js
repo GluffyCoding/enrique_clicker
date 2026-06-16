@@ -30,7 +30,7 @@ const saveMenuContainer = document.getElementById('save-menu-container');
 const toggleMenuBtn = document.getElementById('toggleMenuBtn');
 
 let moola = 0;
-let cpc = 1000;
+let cpc = 1;
 let cps = 0;
 let cpsps = 0;
 let price1 = 100;
