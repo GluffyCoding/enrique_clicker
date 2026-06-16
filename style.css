@@ -20,78 +20,123 @@ button {
     background-color: rgb(255, 255, 255);
     color: rgb(0, 0, 0);
     border: none;
-
+    cursor: pointer;
 }
-button2 {  
-    /* 1. This keeps it locked to the screen */
-    position: fixed; 
-  
-    /* 2. Position it in the bottom left corner */
-    bottom: 20px;    /* Distance from the bottom edge */
-    left: 20px;      /* Distance from the left edge */
-    
-    /* 3. Make sure it stays on top of other content */
-    z-index: 9999;   
-    
-    /* Optional: Make it look nice */
-    padding: 12px 24px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  button3 {  
-    /* 1. This keeps it locked to the screen */
-    position: fixed; 
-  
-    /* 2. Position it in the bottom left corner */
-    bottom: 20px;    /* Distance from the bottom edge */
-    left: 200px;      /* Distance from the left edge */
-    
-    /* 3. Make sure it stays on top of other content */
-    z-index: 9999;   
-    
-    /* Optional: Make it look nice */
-    padding: 12px 24px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
 
- /* 1. The button wrapper */
-/* Update this block in your style.css */
+#mute {  
+    position: fixed; 
+    bottom: 20px;    
+    left: 20px;      
+    z-index: 9999;   
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: auto;
+    height: auto;
+}
+
+#songchange {  
+    position: fixed; 
+    bottom: 20px;    
+    left: 200px;      
+    z-index: 9999;   
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: auto;
+    height: auto;
+}
+
 .clickable-image {
-    /* 1. Alignment fixes to keep it perfectly centered */
     display: block;
     margin: 30px auto; 
-    
-    /* 2. Sizing and shape */
     width: 200px; 
     height: 200px;
     object-fit: cover; 
     border-radius: 50%; 
-    
-    /* 3. Style and cursor feedback */
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); 
-    
-    /* 4. Smooth animation transitions */
     transition: transform 0.2s ease, filter 0.2s ease;
 }
 
-/* Hover Effect */
 .clickable-image:hover {
     transform: scale(1.05); 
     filter: brightness(1.1); 
 }
 
-/* Click Effect */
 .clickable-image.active {
     transform: scale(0.95); 
 }
 .clickable-image:active {
     transform: scale(0.95); 
+}
+
+/* 📁 NEW: Bottom Right Positioning for Save Menu Toggle Button */
+#toggleMenuBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    padding: 12px 24px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: auto;
+    height: auto;
+}
+
+/* 📁 NEW: Bottom Right Positioning for Save Menu Container */
+#save-menu-container {
+    position: fixed;
+    bottom: 80px; /* Sits right above the toggle button */
+    right: 20px;
+    z-index: 9998;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+#save-menu-container h3 {
+    margin-top: 0;
+    font-size: 16px;
+}
+
+#save-menu-container input {
+    padding: 8px; 
+    width: 220px; 
+    text-align: center; 
+    border-radius: 5px; 
+    border: 1px solid #ccc;
+}
+
+#generateSaveBtn {
+    width: 110px; 
+    background-color: #28a745; 
+    color: white;
+    font-size: 14px;
+    height: 40px;
+}
+
+#loadSaveBtn {
+    width: 110px; 
+    background-color: #ffc107; 
+    color: black;
+    font-size: 14px;
+    height: 40px;
+}
+
+/* Class to hide elements from the screen */
+.hidden {
+    display: none !important;
 }

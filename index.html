@@ -1,11 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>John didlefiggler</title>
-    <!-- Link the CSS file for styling -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,7 +11,7 @@
     <h1 id="main-title">hi john!</h1>
     <p id="text-box">epc: 1</p>
     <p id="text-box2">eps: 0</p>
-    <!-- A button that our JavaScript will control -->
+    
     <div class="button-container">
         <button id="upgrade">upgrade epc<br>$ 100</button>
         <button id="upgrade2">upgrade eps<br>$ 50</button>
@@ -21,10 +19,18 @@
 
     <img id="main" class="clickable-image" src="https://cdn3.emoji.gg/emojis/861909-michael.png" alt="Clicker Target" draggable="false">
 
-    <button2 id="mute">unmute music</button2>
-    <button3 id="songchange">jazz - change song</button3>
+    <button id="mute">unmute music</button>
+    <button id="songchange">jazz - change song</button>
 
-    <!-- Link the JavaScript file for interactivity -->
+    <button id="toggleMenuBtn">Show Save Menu</button>
+
+    <div id="save-menu-container" class="hidden">
+        <h3>Save / Load Game Code</h3>
+        <input type="text" id="saveCodeInput" placeholder="Paste save code here..."><br><br>
+        <button id="generateSaveBtn">Get Save Code</button>
+        <button id="loadSaveBtn">Load Code</button>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
