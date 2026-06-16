@@ -123,7 +123,7 @@ loadSaveBtn.addEventListener('click', () => {
         const parsedData = JSON.parse(decodedJson);
 
         moola = Number(parsedData.moola) || 0;
-        cpc = Number(parsedData.cpc) || 1000;
+        cpc = Number(parsedData.cpc) || 1;
         cps = Number(parsedData.cps) || 0;
         cpsps = Number(parsedData.cpsps) || 0;
         price1 = Number(parsedData.price1) || 100;
