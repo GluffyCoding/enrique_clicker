@@ -45,7 +45,7 @@ function updateUI() {
     text3.textContent = `epsps: ${cpsps}`;
     cpcup.innerHTML = `upgrade epc<br>$ ${price1}`;
     cpsup.innerHTML = `upgrade eps<br>$ ${price2}`;
-    cpspsup.innerHTML = `upgrade epsps<br>$ ${price3}`;
+    cpspsup.innerHTML = `upgrade epspm<br>$ ${price3}`;
 }
 
 // Initialize UI on startup
@@ -78,7 +78,7 @@ function startCompoundLoop() {
             updateUI();
             startLoop(); 
         }
-    }, 1000);
+    }, 60000);
 }
 
 // --- SHOW/HIDE MENU INTERACTIVE LOGIC ---
