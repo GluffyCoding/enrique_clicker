@@ -6,8 +6,8 @@ const pablo = new Audio('pablomeme.mp3');
 const title = document.getElementById('main-title');
 const text = document.getElementById('text-box');
 const text2 = document.getElementById('text-box2');
+const text3 = document.getElementById('text-box3');
 
-// FIXED: Only select upgrade buttons, not all buttons on the page
 const upgradeButtons = document.querySelectorAll('.upgrade-btn');
 
 const mute = document.getElementById('mute');
@@ -15,6 +15,7 @@ const change = document.getElementById('songchange');
 const main = document.getElementById('main');
 const cpsup = document.getElementById('upgrade2');
 const cpcup = document.getElementById('upgrade');
+const cpspsup = document.getElementById('upgrade3');
 
 // Code Save/Load Elements
 const saveCodeInput = document.getElementById('saveCodeInput');
@@ -26,20 +27,25 @@ const saveMenuContainer = document.getElementById('save-menu-container');
 const toggleMenuBtn = document.getElementById('toggleMenuBtn');
 
 let moola = 0;
-let cpc = 1;
+let cpc = 1000;
 let cps = 0;
+let cpsps = 0;
 let price1 = 100;
 let price2 = 50;
+let price3 = 1000;
 
 let gameTimer = null; 
+let compoundTimer = null; // Separate timer to add epsps up every second
 
 // Function to update everything on the screen
 function updateUI() {
     title.textContent = moola;
     text.textContent = `epc: ${cpc}`;
     text2.textContent = `eps: ${cps}`;
+    text3.textContent = `epsps: ${cpsps}`;
     cpcup.innerHTML = `upgrade epc<br>$ ${price1}`;
     cpsup.innerHTML = `upgrade eps<br>$ ${price2}`;
+    cpspsup.innerHTML = `upgrade epsps<br>$ ${price3}`;
 }
 
 // Initialize UI on startup
@@ -49,6 +55,7 @@ let song = song3;
 let muted = `yes`;
 song.loop = false;
 
+// ⚡ Dynamic loop that smoothly adds +1 moola based on current CPS speed
 function startLoop() {
     clearInterval(gameTimer); 
     if (cps <= 0) return; 
@@ -59,6 +66,19 @@ function startLoop() {
         moola += 1;
         title.textContent = moola;
     }, delay);
+}
+
+// 📈 Separate Clock: Automatically ticks up your base CPS via your CPSPS upgrades every 1 second
+function startCompoundLoop() {
+    clearInterval(compoundTimer);
+
+    compoundTimer = setInterval(() => {
+        if (cpsps > 0) {
+            cps += cpsps;
+            updateUI();
+            startLoop(); // Readjust the +1 tick rate to account for the faster speed!
+        }
+    }, 1000);
 }
 
 // --- SHOW/HIDE MENU INTERACTIVE LOGIC ---
@@ -78,7 +98,7 @@ toggleMenuBtn.addEventListener('click', () => {
 
 // 1. Generate a Text Code
 generateSaveBtn.addEventListener('click', () => {
-    const gameObject = { moola, cpc, cps, price1, price2 };
+    const gameObject = { moola, cpc, cps, cpsps, price1, price2, price3 };
     const jsonString = JSON.stringify(gameObject);
     const base64Code = btoa(jsonString);
     
@@ -100,13 +120,16 @@ loadSaveBtn.addEventListener('click', () => {
         const parsedData = JSON.parse(decodedJson);
 
         moola = Number(parsedData.moola) || 0;
-        cpc = Number(parsedData.cpc) || 1;
+        cpc = Number(parsedData.cpc) || 1000;
         cps = Number(parsedData.cps) || 0;
+        cpsps = Number(parsedData.cpsps) || 0;
         price1 = Number(parsedData.price1) || 100;
         price2 = Number(parsedData.price2) || 50;
+        price3 = Number(parsedData.price3) || 1000;
 
         updateUI();
         startLoop();
+        startCompoundLoop();
 
         alert("Game successfully loaded!");
         saveCodeInput.value = ""; 
@@ -172,7 +195,7 @@ change.addEventListener('click', () => {
     }
 });
 
-// Upgrade Buttons Click Handler - FIXED to use upgradeButtons array
+// Upgrade Buttons Click Handler
 upgradeButtons.forEach(button => {
     button.addEventListener('click', () => {
         if (button.id == "upgrade"){
@@ -194,7 +217,18 @@ upgradeButtons.forEach(button => {
                 updateUI();
                 pablo.currentTime = 0;
                 pablo.play();
-                startLoop();
+                startLoop(); // Restarts adding +1 at a faster interval rate
+            };
+        } else if (button.id == "upgrade3"){
+            if (moola >= price3) {
+                cpsps += 1;
+                moola -= price3;
+                price3 *= 1.8;
+                price3 = Math.round(price3);
+                updateUI();
+                pablo.currentTime = 0;
+                pablo.play();
+                startCompoundLoop(); // Restarts the second-based multiplier
             };
         }
     });
@@ -223,5 +257,6 @@ document.addEventListener('keyup', (event) => {
     }
 });
 
-// Run loop on page start if CPS is active
+// Start loops
 startLoop();
+startCompoundLoop();
