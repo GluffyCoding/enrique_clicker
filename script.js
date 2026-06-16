@@ -6,7 +6,10 @@ const pablo = new Audio('pablomeme.mp3');
 const title = document.getElementById('main-title');
 const text = document.getElementById('text-box');
 const text2 = document.getElementById('text-box2');
-const buttons = document.querySelectorAll('button');
+
+// FIXED: Only select upgrade buttons, not all buttons on the page
+const upgradeButtons = document.querySelectorAll('.upgrade-btn');
+
 const mute = document.getElementById('mute');
 const change = document.getElementById('songchange');
 const main = document.getElementById('main');
@@ -22,7 +25,6 @@ const loadSaveBtn = document.getElementById('loadSaveBtn');
 const saveMenuContainer = document.getElementById('save-menu-container');
 const toggleMenuBtn = document.getElementById('toggleMenuBtn');
 
-// 💾 FIXED: Always start with default clean values on refresh (localStorage tracking removed)
 let moola = 0;
 let cpc = 1;
 let cps = 0;
@@ -103,7 +105,6 @@ loadSaveBtn.addEventListener('click', () => {
         price1 = Number(parsedData.price1) || 100;
         price2 = Number(parsedData.price2) || 50;
 
-        // Apply loaded values, update screen, and restart game ticks
         updateUI();
         startLoop();
 
@@ -171,8 +172,8 @@ change.addEventListener('click', () => {
     }
 });
 
-// Upgrade Buttons Click Handler
-buttons.forEach(button => {
+// Upgrade Buttons Click Handler - FIXED to use upgradeButtons array
+upgradeButtons.forEach(button => {
     button.addEventListener('click', () => {
         if (button.id == "upgrade"){
             if (moola >= price1) {
