@@ -208,22 +208,21 @@ change.addEventListener('click', (e) => {
             song.currentTime = 0;
             song.loop = true;
             song.play();
-        }  else if (song == song6){
+        } else if (song == song6){
             change.innerHTML = `du bist gut genug - change song`;
             song.pause();
             song = song1
             song.currentTime = 0;
             song.loop = true;
             song.play();
-        }   else if (song == song4){
+        } else if (song == song4){
             change.innerHTML = `breakcore, hah more like, umm, breakcore, yeah. - change song`;
             song.pause();
             song = song5
             song.currentTime = 0;
             song.loop = true;
             song.play();
-        }
-        else if (song == song5){
+        }  else if (song == song5){
             change.innerHTML = `Aizo Aizo - change song`;
             song.pause();
             song = song6
