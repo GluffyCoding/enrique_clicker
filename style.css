@@ -12,7 +12,6 @@ body {
     align-items: flex-end; 
 }
 
-/* Specific to the right-side upgrade buttons */
 .upgrade-btn {  
     text-align: center;
     height: 50px;
@@ -80,7 +79,6 @@ body {
     transform: scale(0.95); 
 }
 
-/* Bottom Right Positioning for Save Menu Toggle Button */
 #toggleMenuBtn {
     position: fixed;
     bottom: 20px;
@@ -96,7 +94,6 @@ body {
     height: auto;
 }
 
-/* Bottom Right Positioning for Save Menu Container */
 #save-menu-container {
     position: fixed;
     bottom: 80px; 
@@ -145,7 +142,6 @@ body {
     cursor: pointer;
 }
 
-/* Class to hide elements from the screen */
 .hidden {
     display: none !important;
 }
