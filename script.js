@@ -6,6 +6,9 @@ const song4 = new Audio('QMIIR_-_TIKI_TIKI_(SkySound.cc).mp3');
 const song5 = new Audio('liam song1.mp3');
 const song6 = new Audio('01. AIZO 「www.kazvampires.com」 (online-audio-converter.com).mp3');
 const pablo = new Audio('pablomeme.mp3');
+
+// ⚙️ FIXED: Added the missing title element declaration back!
+const title = document.getElementById('main-title');
 const text = document.getElementById('text-box');
 const text2 = document.getElementById('text-box2');
 const text3 = document.getElementById('text-box3');
@@ -85,7 +88,6 @@ function startCompoundLoop() {
 
 // --- SHOW/HIDE MENU INTERACTIVE LOGIC ---
 toggleMenuBtn.addEventListener('click', (e) => {
-    // 🌟 FIX: Remove focus so Space bar doesn't click this button again
     e.target.blur();
 
     if (saveMenuContainer.classList.contains('hidden')) {
@@ -103,7 +105,6 @@ toggleMenuBtn.addEventListener('click', (e) => {
 
 // 1. Generate a Text Code
 generateSaveBtn.addEventListener('click', (e) => {
-    // 🌟 FIX: Remove focus
     e.target.blur();
 
     const gameObject = { moola, cpc, cps, cpsps, price1, price2, price3 };
@@ -117,7 +118,6 @@ generateSaveBtn.addEventListener('click', (e) => {
 
 // 2. Load a Text Code
 loadSaveBtn.addEventListener('click', (e) => {
-    // 🌟 FIX: Remove focus
     e.target.blur();
 
     const codeString = saveCodeInput.value.trim();
@@ -166,7 +166,6 @@ document.addEventListener('keydown', function(event) {
 });
   
 mute.addEventListener('click', (e) => {
-    // 🌟 FIX: Remove focus
     e.target.blur();
 
     if (mute.innerHTML == `mute music`){
@@ -183,7 +182,6 @@ mute.addEventListener('click', (e) => {
 });
 
 change.addEventListener('click', (e) => {
-    // 🌟 FIX: Remove focus
     e.target.blur();
 
     if (muted == `no`){
@@ -208,13 +206,6 @@ change.addEventListener('click', (e) => {
             song.currentTime = 0;
             song.loop = true;
             song.play();
-        } else if (song == song6){
-            change.innerHTML = `du bist gut genug - change song`;
-            song.pause();
-            song = song1
-            song.currentTime = 0;
-            song.loop = true;
-            song.play();
         } else if (song == song4){
             change.innerHTML = `breakcore, hah more like, umm, breakcore, yeah. - change song`;
             song.pause();
@@ -222,10 +213,17 @@ change.addEventListener('click', (e) => {
             song.currentTime = 0;
             song.loop = true;
             song.play();
-        }  else if (song == song5){
+        } else if (song == song5){
             change.innerHTML = `Aizo Aizo - change song`;
             song.pause();
             song = song6
+            song.currentTime = 0;
+            song.loop = true;
+            song.play();
+        } else if (song == song6){
+            change.innerHTML = `du bist gut genug - change song`;
+            song.pause();
+            song = song1
             song.currentTime = 0;
             song.loop = true;
             song.play();
@@ -236,7 +234,6 @@ change.addEventListener('click', (e) => {
 // Upgrade Buttons Click Handler
 upgradeButtons.forEach(button => {
     button.addEventListener('click', (e) => {
-        // 🌟 FIX: Remove focus so Space bar doesn't click this button again
         e.target.blur();
 
         if (button.id == "upgrade"){
@@ -284,12 +281,19 @@ main.addEventListener('click', () => {
 
 document.addEventListener('keydown', function(event) {
     if (event.key === ' ') {
+        // 🌟 FIX: Stops the spacebar from accidentally activating focused elements site-wide
+        if (document.activeElement.tagName !== 'INPUT') {
+            event.preventDefault();
+        }
         main.classList.add('active');
     }
 });
 
 document.addEventListener('keyup', (event) => {
     if (event.key === ' ') {
+        if (document.activeElement.tagName !== 'INPUT') {
+            event.preventDefault();
+        }
         main.classList.remove('active');
         moola += cpc;
         title.textContent = moola;
