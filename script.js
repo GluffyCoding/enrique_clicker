@@ -2,8 +2,10 @@ const clickSound = new Audio('enrique.mp3');
 const song1 = new Audio('du-bist-gut-genug.mp3');
 const song2 = new Audio('yara-yara-no-intro.mp3');
 const song3 = new Audio('ikoliks_aj-jazz-lounge-elevator-music-332339.mp3');
+const song4 = new Audio('QMIIR_-_TIKI_TIKI_(SkySound.cc).mp3');
+const song5 = new Audio('liam song1.mp3');
+const song6 = new Audio('01. AIZO 「www.kazvampires.com」 (online-audio-converter.com).mp3');
 const pablo = new Audio('pablomeme.mp3');
-const title = document.getElementById('main-title');
 const text = document.getElementById('text-box');
 const text2 = document.getElementById('text-box2');
 const text3 = document.getElementById('text-box3');
@@ -200,9 +202,31 @@ change.addEventListener('click', (e) => {
             song.loop = true;
             song.play();
         } else if (song == song3){
+            change.innerHTML = `Tiki Tiki Phonk - change song`;
+            song.pause();
+            song = song4
+            song.currentTime = 0;
+            song.loop = true;
+            song.play();
+        }  else if (song == song6){
             change.innerHTML = `du bist gut genug - change song`;
             song.pause();
             song = song1
+            song.currentTime = 0;
+            song.loop = true;
+            song.play();
+        }   else if (song == song4){
+            change.innerHTML = `breakcore, hah more like, umm, breakcore, yeah. - change song`;
+            song.pause();
+            song = song5
+            song.currentTime = 0;
+            song.loop = true;
+            song.play();
+        }
+        else if (song == song5){
+            change.innerHTML = `Aizo Aizo - change song`;
+            song.pause();
+            song = song6
             song.currentTime = 0;
             song.loop = true;
             song.play();
