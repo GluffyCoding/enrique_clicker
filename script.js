@@ -42,6 +42,10 @@ let price3 = 1000;
 let gameTimer = null; 
 let compoundTimer = null; 
 
+// ⏳ Cooldown configuration (in milliseconds)
+let lastClickTime = 0;
+const clickCooldown = 50; // 50ms block rate (max 20 manual clicks per second)
+
 // Function to update everything on the screen
 function updateUI() {
     title.textContent = moola;
@@ -51,7 +55,6 @@ function updateUI() {
     cpcup.innerHTML = `upgrade epc<br>$ ${price1}`;
     cpspsup.innerHTML = `upgrade epspm<br>$ ${price3}`;
 
-    // ⚙️ FIXED: Show if EPS upgrade is maxed out
     if (cps >= 20) {
         cpsup.innerHTML = `upgrade eps<br>MAXED (20)`;
     } else {
@@ -85,10 +88,9 @@ function startCompoundLoop() {
 
     compoundTimer = setInterval(() => {
         if (cpsps > 0) {
-            // ⚙️ FIXED: Prevent compound loop from scaling past 20 CPS
             if (cps < 20) {
                 cps += cpsps;
-                if (cps > 20) cps = 20; // Hard cap at 20
+                if (cps > 20) cps = 20; 
                 updateUI();
                 startLoop(); 
             }
@@ -98,7 +100,6 @@ function startCompoundLoop() {
 
 // --- SHOW/HIDE MENU INTERACTIVE LOGIC ---
 toggleMenuBtn.addEventListener('click', (e) => {
-    // 🌟 FIX: Remove focus
     e.target.blur();
 
     if (saveMenuContainer.classList.contains('hidden')) {
@@ -116,7 +117,6 @@ toggleMenuBtn.addEventListener('click', (e) => {
 
 // 1. Generate a Text Code
 generateSaveBtn.addEventListener('click', (e) => {
-    // 🌟 FIX: Remove focus
     e.target.blur();
 
     const gameObject = { moola, cpc, cps, cpsps, price1, price2, price3 };
@@ -130,7 +130,6 @@ generateSaveBtn.addEventListener('click', (e) => {
 
 // 2. Load a Text Code
 loadSaveBtn.addEventListener('click', (e) => {
-    // 🌟 FIX: Remove focus
     e.target.blur();
 
     const codeString = saveCodeInput.value.trim();
@@ -151,7 +150,6 @@ loadSaveBtn.addEventListener('click', (e) => {
         price2 = Number(parsedData.price2) || 50;
         price3 = Number(parsedData.price3) || 1000;
 
-        // Force 20 CPS cap check upon loading
         if (cps > 20) cps = 20;
 
         updateUI();
@@ -182,7 +180,6 @@ document.addEventListener('keydown', function(event) {
 });
   
 mute.addEventListener('click', (e) => {
-    // 🌟 FIX: Remove focus
     e.target.blur();
 
     if (mute.innerHTML == `mute music`){
@@ -199,7 +196,6 @@ mute.addEventListener('click', (e) => {
 });
 
 change.addEventListener('click', (e) => {
-    // 🌟 FIX: Remove focus
     e.target.blur();
 
     if (muted == `no`){
@@ -259,7 +255,6 @@ change.addEventListener('click', (e) => {
 // Upgrade Buttons Click Handler
 upgradeButtons.forEach(button => {
     button.addEventListener('click', (e) => {
-        // 🌟 FIX: Remove focus
         e.target.blur();
 
         if (button.id == "upgrade"){
@@ -273,7 +268,6 @@ upgradeButtons.forEach(button => {
                 pablo.play();
             };
         } else if (button.id == "upgrade2"){
-            // ⚙️ FIXED: Block buying if already at or above 20 CPS
             if (cps >= 20) {
                 alert("You have reached the maximum allowed limit of 20 CPS!");
                 return;
@@ -281,6 +275,8 @@ upgradeButtons.forEach(button => {
 
             if (moola >= price2) {
                 cps += 1;
+                if (cps > 20) cps = 20;
+
                 moola -= price2;
                 price2 *= 1.5;
                 price2 = Math.round(price2);
@@ -304,7 +300,13 @@ upgradeButtons.forEach(button => {
     });
 });
 
+// --- MAIN CLICK LOGIC WITH COOLDOWN ---
 main.addEventListener('click', () => {
+    const currentTime = Date.now();
+    // 🌟 FIX: Block light-speed auto clickers if clicked too quickly
+    if (currentTime - lastClickTime < clickCooldown) return;
+    lastClickTime = currentTime;
+
     moola += cpc;
     title.textContent = moola;
     clickSound.currentTime = 0;
@@ -313,7 +315,6 @@ main.addEventListener('click', () => {
 
 document.addEventListener('keydown', function(event) {
     if (event.key === ' ') {
-        // 🌟 FIX: Stops spacebar from clicking focused items
         if (document.activeElement.tagName !== 'INPUT') {
             event.preventDefault();
         }
@@ -326,6 +327,15 @@ document.addEventListener('keyup', (event) => {
         if (document.activeElement.tagName !== 'INPUT') {
             event.preventDefault();
         }
+
+        const currentTime = Date.now();
+        // 🌟 FIX: Block light-speed spacebar tapping/spamming too
+        if (currentTime - lastClickTime < clickCooldown) {
+            main.classList.remove('active');
+            return;
+        }
+        lastClickTime = currentTime;
+
         main.classList.remove('active');
         moola += cpc;
         title.textContent = moola;
