@@ -46,10 +46,10 @@ function updateUI() {
     title.textContent = moola;
     text.textContent = `epc: ${cpc}`;
     text2.textContent = `eps: ${cps}`;
-    text3.textContent = `epsps: ${cpsps}`;
+    text3.textContent = `epspm: ${cpsps}`;
     cpcup.innerHTML = `upgrade epc<br>$ ${price1}`;
     cpsup.innerHTML = `upgrade eps<br>$ ${price2}`;
-    cpspsup.innerHTML = `upgrade epsps<br>$ ${price3}`;
+    cpspsup.innerHTML = `upgrade epspm<br>$ ${price3}`;
 }
 
 // Initialize UI on startup
@@ -82,7 +82,7 @@ function startCompoundLoop() {
             updateUI();
             startLoop(); // Readjust the +1 tick rate to account for the faster speed!
         }
-    }, 1000);
+    }, 60000);
 }
 
 // --- SHOW/HIDE MENU INTERACTIVE LOGIC ---
