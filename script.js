@@ -5,8 +5,9 @@ const song3 = new Audio('ikoliks_aj-jazz-lounge-elevator-music-332339.mp3');
 const song4 = new Audio('QMIIR_-_TIKI_TIKI_(SkySound.cc).mp3');
 const song5 = new Audio('liam song1.mp3');
 const song6 = new Audio('01. AIZO 「www.kazvampires.com」 (online-audio-converter.com).mp3');
-const pablo = new Audio('pablomeme.mp3');
 const song7 = new Audio('Lady Gaga - Judas - GOJO VS SUKUNA.mp3');
+const pablo = new Audio('pablomeme.mp3');
+
 const title = document.getElementById('main-title');
 const text = document.getElementById('text-box');
 const text2 = document.getElementById('text-box2');
@@ -29,8 +30,6 @@ const loadSaveBtn = document.getElementById('loadSaveBtn');
 // Toggle Menu Elements
 const saveMenuContainer = document.getElementById('save-menu-container');
 const toggleMenuBtn = document.getElementById('toggleMenuBtn');
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
-
 
 let moola = 0;
 let cpc = 1;
@@ -41,7 +40,7 @@ let price2 = 50;
 let price3 = 1000;
 
 let gameTimer = null; 
-let compoundTimer = null; // Separate timer to add epsps up every second
+let compoundTimer = null; 
 
 // Function to update everything on the screen
 function updateUI() {
@@ -50,8 +49,14 @@ function updateUI() {
     text2.textContent = `eps: ${cps}`;
     text3.textContent = `epspm: ${cpsps}`;
     cpcup.innerHTML = `upgrade epc<br>$ ${price1}`;
-    cpsup.innerHTML = `upgrade eps<br>$ ${price2}`;
     cpspsup.innerHTML = `upgrade epspm<br>$ ${price3}`;
+
+    // ⚙️ FIXED: Show if EPS upgrade is maxed out
+    if (cps >= 20) {
+        cpsup.innerHTML = `upgrade eps<br>MAXED (20)`;
+    } else {
+        cpsup.innerHTML = `upgrade eps<br>$ ${price2}`;
+    }
 }
 
 // Initialize UI on startup
@@ -74,21 +79,28 @@ function startLoop() {
     }, delay);
 }
 
-// 📈 Separate Clock: Automatically ticks up your base CPS via your CPSPS upgrades every 1 second
+// 📈 Separate Clock: Automatically ticks up your base CPS via your CPSPS upgrades every 1 minute
 function startCompoundLoop() {
     clearInterval(compoundTimer);
 
     compoundTimer = setInterval(() => {
         if (cpsps > 0) {
-            cps += cpsps;
-            updateUI();
-            startLoop(); // Readjust the +1 tick rate to account for the faster speed!
+            // ⚙️ FIXED: Prevent compound loop from scaling past 20 CPS
+            if (cps < 20) {
+                cps += cpsps;
+                if (cps > 20) cps = 20; // Hard cap at 20
+                updateUI();
+                startLoop(); 
+            }
         }
     }, 60000);
 }
 
 // --- SHOW/HIDE MENU INTERACTIVE LOGIC ---
-toggleMenuBtn.addEventListener('click', () => {
+toggleMenuBtn.addEventListener('click', (e) => {
+    // 🌟 FIX: Remove focus
+    e.target.blur();
+
     if (saveMenuContainer.classList.contains('hidden')) {
         saveMenuContainer.classList.remove('hidden');
         toggleMenuBtn.textContent = "Hide Save Menu";
@@ -103,7 +115,10 @@ toggleMenuBtn.addEventListener('click', () => {
 // --- CODE GENERATOR AND LOADER LOGIC ---
 
 // 1. Generate a Text Code
-generateSaveBtn.addEventListener('click', () => {
+generateSaveBtn.addEventListener('click', (e) => {
+    // 🌟 FIX: Remove focus
+    e.target.blur();
+
     const gameObject = { moola, cpc, cps, cpsps, price1, price2, price3 };
     const jsonString = JSON.stringify(gameObject);
     const base64Code = btoa(jsonString);
@@ -114,7 +129,10 @@ generateSaveBtn.addEventListener('click', () => {
 });
 
 // 2. Load a Text Code
-loadSaveBtn.addEventListener('click', () => {
+loadSaveBtn.addEventListener('click', (e) => {
+    // 🌟 FIX: Remove focus
+    e.target.blur();
+
     const codeString = saveCodeInput.value.trim();
     if (!codeString) {
         alert("Please paste a save code into the box first!");
@@ -132,6 +150,9 @@ loadSaveBtn.addEventListener('click', () => {
         price1 = Number(parsedData.price1) || 100;
         price2 = Number(parsedData.price2) || 50;
         price3 = Number(parsedData.price3) || 1000;
+
+        // Force 20 CPS cap check upon loading
+        if (cps > 20) cps = 20;
 
         updateUI();
         startLoop();
@@ -160,7 +181,10 @@ document.addEventListener('keydown', function(event) {
     }
 });
   
-mute.addEventListener('click', () => {
+mute.addEventListener('click', (e) => {
+    // 🌟 FIX: Remove focus
+    e.target.blur();
+
     if (mute.innerHTML == `mute music`){
         mute.innerHTML = `unmute music`;
         song.pause();
@@ -174,7 +198,10 @@ mute.addEventListener('click', () => {
     }
 });
 
-change.addEventListener('click', () => {
+change.addEventListener('click', (e) => {
+    // 🌟 FIX: Remove focus
+    e.target.blur();
+
     if (muted == `no`){
         if (song == song1){
             change.innerHTML = `Yara Yara Phonk - change song`;
@@ -197,22 +224,14 @@ change.addEventListener('click', () => {
             song.currentTime = 0;
             song.loop = true;
             song.play();
-        }  else if (song == song7){
-            change.innerHTML = `du bist gut genug - change song`;
-            song.pause();
-            song = song1
-            song.currentTime = 0;
-            song.loop = true;
-            song.play();
-        }   else if (song == song4){
+        } else if (song == song4){
             change.innerHTML = `breakcore, hah more like, umm, breakcore, yeah. - change song`;
             song.pause();
             song = song5
             song.currentTime = 0;
             song.loop = true;
             song.play();
-        }
-        else if (song == song5){
+        } else if (song == song5){
             change.innerHTML = `Aizo Aizo - change song`;
             song.pause();
             song = song6
@@ -226,13 +245,23 @@ change.addEventListener('click', () => {
             song.currentTime = 0;
             song.loop = true;
             song.play();
+        } else if (song == song7){
+            change.innerHTML = `du bist gut genug - change song`;
+            song.pause();
+            song = song1
+            song.currentTime = 0;
+            song.loop = true;
+            song.play();
         }
     }
 });
 
 // Upgrade Buttons Click Handler
 upgradeButtons.forEach(button => {
-    button.addEventListener('click', () => {
+    button.addEventListener('click', (e) => {
+        // 🌟 FIX: Remove focus
+        e.target.blur();
+
         if (button.id == "upgrade"){
             if (moola >= price1) {
                 cpc += 1;
@@ -244,6 +273,12 @@ upgradeButtons.forEach(button => {
                 pablo.play();
             };
         } else if (button.id == "upgrade2"){
+            // ⚙️ FIXED: Block buying if already at or above 20 CPS
+            if (cps >= 20) {
+                alert("You have reached the maximum allowed limit of 20 CPS!");
+                return;
+            }
+
             if (moola >= price2) {
                 cps += 1;
                 moola -= price2;
@@ -252,7 +287,7 @@ upgradeButtons.forEach(button => {
                 updateUI();
                 pablo.currentTime = 0;
                 pablo.play();
-                startLoop(); // Restarts adding +1 at a faster interval rate
+                startLoop(); 
             };
         } else if (button.id == "upgrade3"){
             if (moola >= price3) {
@@ -263,7 +298,7 @@ upgradeButtons.forEach(button => {
                 updateUI();
                 pablo.currentTime = 0;
                 pablo.play();
-                startCompoundLoop(); // Restarts the second-based multiplier
+                startCompoundLoop(); 
             };
         }
     });
@@ -274,23 +309,28 @@ main.addEventListener('click', () => {
     title.textContent = moola;
     clickSound.currentTime = 0;
     clickSound.play();
-    await delay(33);
 });
 
 document.addEventListener('keydown', function(event) {
     if (event.key === ' ') {
+        // 🌟 FIX: Stops spacebar from clicking focused items
+        if (document.activeElement.tagName !== 'INPUT') {
+            event.preventDefault();
+        }
         main.classList.add('active');
     }
 });
 
 document.addEventListener('keyup', (event) => {
     if (event.key === ' ') {
+        if (document.activeElement.tagName !== 'INPUT') {
+            event.preventDefault();
+        }
         main.classList.remove('active');
         moola += cpc;
         title.textContent = moola;
         clickSound.currentTime = 0;
         clickSound.play();
-        await delay(33);
     }
 });
 
