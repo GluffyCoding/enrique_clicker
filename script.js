@@ -29,6 +29,8 @@ const loadSaveBtn = document.getElementById('loadSaveBtn');
 // Toggle Menu Elements
 const saveMenuContainer = document.getElementById('save-menu-container');
 const toggleMenuBtn = document.getElementById('toggleMenuBtn');
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 
 let moola = 0;
 let cpc = 1;
@@ -272,6 +274,7 @@ main.addEventListener('click', () => {
     title.textContent = moola;
     clickSound.currentTime = 0;
     clickSound.play();
+    await delay(33);
 });
 
 document.addEventListener('keydown', function(event) {
@@ -287,6 +290,7 @@ document.addEventListener('keyup', (event) => {
         title.textContent = moola;
         clickSound.currentTime = 0;
         clickSound.play();
+        await delay(33);
     }
 });
 
